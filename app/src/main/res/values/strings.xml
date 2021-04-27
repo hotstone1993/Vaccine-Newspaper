@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">VaccineNewspaper</string>
+    <string name="title_activity_main">Main</string>
+
+    <string name="setting">Setting</string>
+    <string name="news">News</string>
+    <string name="video">YouTube</string>
+</resources>
