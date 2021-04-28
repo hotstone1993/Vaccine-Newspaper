@@ -1,6 +1,6 @@
 package com.newstone.vaccine_newspaper.view.main.model
 
-interface BaseModel {
+interface BaseRecyclerModel {
     fun addItem(item: Any)
 
     fun getItemCount(): Int

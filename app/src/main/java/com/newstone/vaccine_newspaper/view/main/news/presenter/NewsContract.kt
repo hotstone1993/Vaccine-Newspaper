@@ -6,6 +6,6 @@ class NewsContract {
     }
 
     interface ViewModel {
-
+        fun loadNews();
     }
 }

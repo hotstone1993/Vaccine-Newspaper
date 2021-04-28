@@ -12,11 +12,11 @@ import com.newstone.vaccine_newspaper.R
 class NewsHolder(context:Context, parent: ViewGroup) : RecyclerView.ViewHolder(LayoutInflater.from(context).inflate(
     R.layout.item_news, parent, false)) {
 
-    fun onBind(item: NewsData) {
+    fun onBind(item: NewsItem) {
         itemView.onBind(item)
     }
 
-    private fun View.onBind(item: NewsData) {
+    private fun View.onBind(item: NewsItem) {
         val news: TextView = findViewById(R.id.titleTextView)
         val newsImage: ImageView = findViewById(R.id.newsImageView)
         news.text = item.title
