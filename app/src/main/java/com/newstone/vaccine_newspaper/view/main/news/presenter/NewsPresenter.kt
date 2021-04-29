@@ -2,7 +2,6 @@ package com.newstone.vaccine_newspaper.view.main.news.presenter
 
 import android.os.AsyncTask
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import com.newstone.vaccine_newspaper.view.main.model.BaseRecyclerModel
 import com.newstone.vaccine_newspaper.view.main.news.data.NewsRepository
 

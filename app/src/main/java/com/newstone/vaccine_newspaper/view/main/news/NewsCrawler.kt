@@ -4,7 +4,6 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import com.newstone.vaccine_newspaper.view.main.news.adapter.NewsItem
 import org.jsoup.Jsoup
-import org.jsoup.select.Elements
 import java.lang.Exception
 import java.net.URL
 
