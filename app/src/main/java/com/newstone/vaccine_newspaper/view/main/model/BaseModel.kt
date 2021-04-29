@@ -5,5 +5,5 @@ interface BaseRecyclerModel {
 
     fun getItemCount(): Int
 
-    fun notifyDataSetChang()
+    fun notifyData()
 }

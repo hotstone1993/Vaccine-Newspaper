@@ -9,6 +9,7 @@ class NewsData: BaseDataSource {
     }
 
     override fun loadData(dataList: (List<Any>) -> Unit) {
+        crawler.CrawlingDataFromWeb()
         dataList(crawler.list)
     }
 }

@@ -23,8 +23,8 @@ class NewsAdapter(private val context: Context) : RecyclerView.Adapter<RecyclerV
 
     override fun getItemCount(): Int = newsList.size
 
-    override fun notifyDataSetChang() {
-        notifyDataSetChang()
+    override fun notifyData() {
+        notifyDataSetChanged()
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {

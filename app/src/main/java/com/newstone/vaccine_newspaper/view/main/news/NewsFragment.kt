@@ -32,8 +32,6 @@ class NewsFragment: Fragment(), NewsContract.View {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_news, container, false)
-        newsRecyclerAdapter.addItem(NewsItem("백신 뉴스1", "www.newstone.com", resources.getDrawable(R.drawable.ic_item_defalut, null)))
-
         present.loadNews()
 
         newsRecyclerView = view.findViewById(R.id.newsRecyclerView)

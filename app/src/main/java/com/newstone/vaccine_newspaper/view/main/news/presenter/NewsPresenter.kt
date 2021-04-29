@@ -10,7 +10,7 @@ class NewsPresenter(private val view: NewsContract.View, private val recyclerMod
     var isLoading = false
 
     override fun loadNews() {
-        NewsAsyncTask(this, view, recyclerModel)
+        NewsAsyncTask(this, view, recyclerModel).execute()
     }
 
     class NewsAsyncTask(private val presenter :NewsPresenter,
@@ -31,6 +31,7 @@ class NewsPresenter(private val view: NewsContract.View, private val recyclerMod
 
         override fun onPostExecute(result: Unit?) {
             super.onPostExecute(result)
+            recyclerModel.notifyData()
             presenter.isLoading = true
         }
     }
