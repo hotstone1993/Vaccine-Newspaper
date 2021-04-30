@@ -34,5 +34,4 @@ class NewsPresenter(private val view: NewsContract.View, private val recyclerMod
             isLoading.set(true)
         }
     }
-
 }

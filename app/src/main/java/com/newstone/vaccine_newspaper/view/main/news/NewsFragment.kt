@@ -1,5 +1,6 @@
 package com.newstone.vaccine_newspaper.view.main.news
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.newstone.vaccine_newspaper.R
 import com.newstone.vaccine_newspaper.view.main.model.BaseRecyclerModel
 import com.newstone.vaccine_newspaper.view.main.news.adapter.NewsAdapter
-import com.newstone.vaccine_newspaper.view.main.news.adapter.NewsItem
 import com.newstone.vaccine_newspaper.view.main.news.presenter.NewsContract
 import com.newstone.vaccine_newspaper.view.main.news.presenter.NewsPresenter
 
@@ -23,10 +23,16 @@ class NewsFragment: Fragment(), NewsContract.View {
         NewsPresenterFactory(this@NewsFragment, newsRecyclerAdapter)
     }
     private val newsRecyclerAdapter: NewsAdapter by lazy {
-        NewsAdapter(requireContext())
+        NewsAdapter(requireContext(), startWebViewActivityFunction)
     }
     lateinit var loadingProgressBar: ProgressBar
     private lateinit var newsRecyclerView: RecyclerView
+    private val startWebViewActivityFunction = { url: String, title: String -> Unit
+        val intent = Intent(requireActivity(), NewsWebViewActivity::class.java)
+        intent.putExtra(NewsWebViewActivity.WEBVIEW_URL_KEY, url)
+        intent.putExtra(NewsWebViewActivity.WEBVIEW_TITLE_KEY, title)
+        requireActivity().startActivity(intent)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,

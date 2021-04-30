@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.newstone.vaccine_newspaper.R
 
 
-class NewsHolder(context:Context, parent: ViewGroup) : RecyclerView.ViewHolder(LayoutInflater.from(context).inflate(
+class NewsHolder(context:Context, parent: ViewGroup, private val newsData: MutableList<NewsItem>, private val startWebViewActivityFunction: (String, String)-> Unit) : RecyclerView.ViewHolder(LayoutInflater.from(context).inflate(
     R.layout.item_news, parent, false)) {
 
     fun onBind(item: NewsItem) {
@@ -22,5 +22,13 @@ class NewsHolder(context:Context, parent: ViewGroup) : RecyclerView.ViewHolder(L
         val newsImage: ImageView = findViewById(R.id.newsImageView)
         news.text = item.title
         newsImage.setImageBitmap(item.image)
+
+        itemView.setOnClickListener {
+            val pos = adapterPosition
+            if(pos != RecyclerView.NO_POSITION) {
+                startWebViewActivityFunction(newsData[pos].url, newsData[pos].title)
+            }
+        }
     }
+
 }

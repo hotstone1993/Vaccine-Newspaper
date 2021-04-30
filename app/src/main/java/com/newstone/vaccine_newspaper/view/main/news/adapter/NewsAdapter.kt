@@ -5,12 +5,12 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.newstone.vaccine_newspaper.view.main.model.BaseRecyclerModel
 
-class NewsAdapter(private val context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>(),
+class NewsAdapter(private val context: Context, private val startWebViewActivityFunction: (String, String)-> Unit) : RecyclerView.Adapter<RecyclerView.ViewHolder>(),
     BaseRecyclerModel {
     private val newsList = mutableListOf<NewsItem>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return NewsHolder(context, parent)
+        return NewsHolder(context, parent, newsList, startWebViewActivityFunction)
     }
 
     override fun addItem(item: Any) {
