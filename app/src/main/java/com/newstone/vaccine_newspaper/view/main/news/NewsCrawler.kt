@@ -4,15 +4,16 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import com.newstone.vaccine_newspaper.view.main.news.adapter.NewsItem
 import org.jsoup.Jsoup
-import java.lang.Exception
 import java.net.URL
+import java.text.SimpleDateFormat
+import java.util.*
 
 class NewsCrawler {
-    val LAST_INDEX = 100
+    val MAXIMUM_INDEX = 20
 
     val list = mutableListOf<NewsItem>()
     val baseUrl = "https://news.naver.com/main/list.nhn?mode=LS2D&sid2=255&sid1=102&mid=shm&date="
-    val currData: String = "20210430"
+    var currData: String = SimpleDateFormat("yyyyMMdd", Locale.KOREA).format(Calendar.getInstance().time)
     var currIndex = 1
 
     fun CrawlingDataFromWeb() {
@@ -26,7 +27,7 @@ class NewsCrawler {
                 else
                     false
             }
-            if(currIndex == LAST_INDEX || pagingList.size == 0)
+            if(currIndex == MAXIMUM_INDEX || pagingList.size == 0)
                 return
 
             val li = document.getElementsByClass("type06_headline").select("li")
