@@ -8,11 +8,11 @@ import java.lang.Exception
 import java.net.URL
 
 class NewsCrawler {
-    val LAST_INDEX = 10
+    val LAST_INDEX = 100
 
     val list = mutableListOf<NewsItem>()
     val baseUrl = "https://news.naver.com/main/list.nhn?mode=LS2D&sid2=255&sid1=102&mid=shm&date="
-    val currData: String = "20210429"
+    val currData: String = "20210430"
     var currIndex = 1
 
     fun CrawlingDataFromWeb() {
@@ -40,14 +40,12 @@ class NewsCrawler {
                     bmp = null
                 }
 
-                var title:String
                 try {
-                    title = item.select("dt").select("a").get(1).text()
+                    val title = item.select("dt").select("a").get(1).text()
+                    list.add(NewsItem(title, url, bmp))
                 } catch (e: Exception) {
-                    title = "Error"
+                    continue
                 }
-
-                list.add(NewsItem(title, url, bmp))
             }
             currIndex++
         }
