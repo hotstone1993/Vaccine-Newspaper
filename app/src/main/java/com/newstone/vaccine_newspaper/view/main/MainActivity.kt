@@ -36,17 +36,17 @@ class MainActivity : AppCompatActivity() {
         VideoFragment()
     }
 
-    private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
+    private val onNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
-            R.id.navigation_home -> {
+            R.id.navigation_setting -> {
                 replace(R.id.container, settingFragment)
                 return@OnNavigationItemSelectedListener true
             }
-            R.id.navigation_camera -> {
+            R.id.navigation_news -> {
                 replace(R.id.container, newsFragment)
                 return@OnNavigationItemSelectedListener true
             }
-            R.id.navigation_more -> {
+            R.id.navigation_video -> {
                 replace(R.id.container, videoFragment)
                 return@OnNavigationItemSelectedListener true
             }
@@ -64,7 +64,7 @@ class MainActivity : AppCompatActivity() {
         replace(R.id.container, settingFragment)
 
         val navigation: BottomNavigationView = findViewById(R.id.navigation)
-        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
+        navigation.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
     }
 
     fun checkPermission(): Boolean {
