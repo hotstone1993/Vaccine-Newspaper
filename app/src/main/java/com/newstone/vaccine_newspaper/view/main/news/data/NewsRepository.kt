@@ -12,4 +12,9 @@ object NewsRepository : BaseDataSource{
     override fun loadData(dataList: (List<Any>) -> Unit) {
         newsData.loadData(dataList)
     }
+    fun resetData() {
+        isLoaded = false
+        newsData.crawler.list.clear()
+        newsData.crawler.clear()
+    }
 }

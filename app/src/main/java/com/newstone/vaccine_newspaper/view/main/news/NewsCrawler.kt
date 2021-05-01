@@ -52,4 +52,8 @@ class NewsCrawler {
         }
     }
 
+    fun clear() {
+        list.clear()
+        currIndex = 1
+    }
 }

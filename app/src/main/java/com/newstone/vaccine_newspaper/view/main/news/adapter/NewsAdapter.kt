@@ -27,6 +27,10 @@ class NewsAdapter(private val context: Context, private val startWebViewActivity
         notifyDataSetChanged()
     }
 
+    fun clearData() {
+        newsList.clear()
+    }
+
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         (holder as? NewsHolder)?.onBind(newsList[position])
     }
