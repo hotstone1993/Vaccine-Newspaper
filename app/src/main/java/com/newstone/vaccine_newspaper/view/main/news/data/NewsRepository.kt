@@ -3,6 +3,8 @@ package com.newstone.vaccine_newspaper.view.main.news.data
 import com.newstone.vaccine_newspaper.view.main.data.BaseDataSource
 
 object NewsRepository : BaseDataSource{
+    var isLoaded = false
+
     private val newsData: NewsData by lazy {
         NewsData()
     }

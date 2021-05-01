@@ -18,6 +18,9 @@ class NewsPresenter(private val view: NewsContract.View, private val recyclerMod
     }
 
     override fun loadNews() {
+        if(NewsRepository.isLoaded)
+            return
+
         CoroutineScope(Dispatchers.Main).launch {
             isLoading.set(false)
             view.showProgressBar()
@@ -32,6 +35,7 @@ class NewsPresenter(private val view: NewsContract.View, private val recyclerMod
             recyclerModel.notifyData()
             view.hideProgressBar()
             isLoading.set(true)
+            NewsRepository.isLoaded = true
         }
     }
 }
