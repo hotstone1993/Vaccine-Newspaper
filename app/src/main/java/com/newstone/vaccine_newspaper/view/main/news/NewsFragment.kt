@@ -51,6 +51,9 @@ class NewsFragment: Fragment(), NewsContract.View {
             calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
 
             dateTextView.setText(SimpleDateFormat("yyyy-MM-dd", Locale.KOREA).format(calendar.getTime()))
+            resetNews()
+            NewsRepository.setDate(SimpleDateFormat("yyyyMMdd", Locale.KOREA).format(calendar.getTime()))
+            present.loadNews()
         }
 
 

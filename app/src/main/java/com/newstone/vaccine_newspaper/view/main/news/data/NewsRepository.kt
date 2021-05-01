@@ -17,4 +17,8 @@ object NewsRepository : BaseDataSource{
         newsData.crawler.list.clear()
         newsData.crawler.clear()
     }
+
+    fun setDate(newDate: String) {
+        newsData.crawler.currDate = newDate
+    }
 }

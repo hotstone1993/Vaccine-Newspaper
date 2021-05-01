@@ -12,13 +12,13 @@ class NewsCrawler {
     val MAXIMUM_INDEX = 20
 
     val list = mutableListOf<NewsItem>()
-    val baseUrl = "https://news.naver.com/main/list.nhn?mode=LS2D&sid2=255&sid1=102&mid=shm&date="
-    var currData: String = SimpleDateFormat("yyyyMMdd", Locale.KOREA).format(Calendar.getInstance().time)
-    var currIndex = 1
+    var currDate: String = SimpleDateFormat("yyyyMMdd", Locale.KOREA).format(Calendar.getInstance().time)
+    private val baseUrl = "https://news.naver.com/main/list.nhn?mode=LS2D&sid2=255&sid1=102&mid=shm&date="
+    private var currIndex = 1
 
     fun CrawlingDataFromWeb() {
         while(true) {
-            val url = baseUrl + currData + "&page=" + currIndex.toString()
+            val url = baseUrl + currDate + "&page=" + currIndex.toString()
             val document = Jsoup.connect(url).get()
 
             val pagingList = document.getElementsByClass("paging").select("strong").toList().filter {
