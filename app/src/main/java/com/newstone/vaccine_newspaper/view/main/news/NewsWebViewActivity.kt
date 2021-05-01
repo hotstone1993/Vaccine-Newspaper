@@ -31,10 +31,12 @@ class NewsWebViewActivity : AppCompatActivity(){
         settings.setLoadWithOverviewMode(true)
         settings.setUseWideViewPort(true)
         settings.setSupportZoom(false)
-        settings.setBuiltInZoomControls(false);
+        settings.setBuiltInZoomControls(false)
         settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN)
         settings.setCacheMode(WebSettings.LOAD_NO_CACHE)
         settings.setDomStorageEnabled(true)
+        settings.setJavaScriptEnabled(true)
+        settings.setBlockNetworkImage(false)
         webView.loadUrl(url)
         val titleTextView = findViewById<TextView>(R.id.newsTitleTextView)
         titleTextView.text = title
