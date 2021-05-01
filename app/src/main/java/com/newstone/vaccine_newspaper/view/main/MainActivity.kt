@@ -4,9 +4,9 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.newstone.vaccine_newspaper.R
@@ -14,6 +14,7 @@ import com.newstone.vaccine_newspaper.view.main.news.NewsFragment
 import com.newstone.vaccine_newspaper.view.main.setting.SettingFragment
 import com.newstone.vaccine_newspaper.view.main.util.replace
 import com.newstone.vaccine_newspaper.view.main.video.VideoFragment
+
 
 class MainActivity : AppCompatActivity() {
     val PERMISSION_LIST = listOf<String>(android.Manifest.permission.INTERNET, android.Manifest.permission.ACCESS_NETWORK_STATE)

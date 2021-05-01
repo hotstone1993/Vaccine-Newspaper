@@ -1,5 +1,6 @@
 package com.newstone.vaccine_newspaper.view.main.news
 
+import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -42,6 +43,17 @@ class NewsFragment: Fragment(), NewsContract.View {
     private lateinit var reloadBtn:Button
     private lateinit var dateTextView: TextView
 
+    private val calendar =  Calendar.getInstance()
+    var datePicker =
+        DatePickerDialog.OnDateSetListener { view, year, month, dayOfMonth ->
+            calendar.set(Calendar.YEAR, year)
+            calendar.set(Calendar.MONTH, month)
+            calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+
+            dateTextView.setText(SimpleDateFormat("yyyy-MM-dd", Locale.KOREA).format(calendar.getTime()))
+        }
+
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -59,14 +71,13 @@ class NewsFragment: Fragment(), NewsContract.View {
         }
         reloadBtn = view.findViewById(R.id.reloadBtn)
         reloadBtn.setOnClickListener {
-            NewsRepository.resetData()
-            newsRecyclerAdapter.clearData()
-            newsRecyclerAdapter.notifyData()
+            resetNews()
             present.loadNews()
         }
         dateTextView = view.findViewById(R.id.dateTextView)
         dateTextView.text = SimpleDateFormat("yyyy-MM-dd", Locale.KOREA).format(Calendar.getInstance().time)
         dateTextView.setOnClickListener {
+            DatePickerDialog(requireContext(), datePicker, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show();
         }
 
         // Crawling
@@ -87,5 +98,11 @@ class NewsFragment: Fragment(), NewsContract.View {
 
     override fun hideProgressBar() {
         loadingProgressBar.visibility = View.INVISIBLE
+    }
+
+    fun resetNews() {
+        NewsRepository.resetData()
+        newsRecyclerAdapter.clearData()
+        newsRecyclerAdapter.notifyData()
     }
 }
