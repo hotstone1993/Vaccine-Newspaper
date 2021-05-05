@@ -35,10 +35,8 @@ class NewsFragment: Fragment(), NewsContract.View {
     lateinit var loadingProgressBar: ProgressBar
     private lateinit var newsRecyclerView: RecyclerView
     private val startWebViewActivityFunction = { url: String, title: String -> Unit
-        val intent = Intent(requireActivity(), NewsWebViewActivity::class.java)
-        intent.putExtra(NewsWebViewActivity.WEBVIEW_URL_KEY, url)
-        intent.putExtra(NewsWebViewActivity.WEBVIEW_TITLE_KEY, title)
-        requireActivity().startActivity(intent)
+        NewsBottomSheet.create(url, title)
+            .show(requireActivity().supportFragmentManager, "NewsBottomSheet")
     }
     private lateinit var reloadBtn:Button
     private lateinit var dateTextView: TextView
