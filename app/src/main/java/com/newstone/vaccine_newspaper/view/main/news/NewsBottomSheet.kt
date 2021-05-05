@@ -8,8 +8,8 @@ import android.view.ViewGroup
 import android.webkit.WebSettings
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import android.widget.Button
 import android.widget.ImageView
+import android.widget.RelativeLayout
 import android.widget.TextView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -27,6 +27,20 @@ class NewsBottomSheet() : BottomSheetDialogFragment() {
             }
         }
     }
+    private val bottomSheetCallback = object : BottomSheetBehavior.BottomSheetCallback() {
+        override fun onSlide(bottomSheet: View, slideOffset: Float) {
+        }
+
+        override fun onStateChanged(bottomSheet: View, newState: Int) {
+            when (newState) {
+                BottomSheetBehavior.STATE_COLLAPSED -> {
+                    if (!isRemoving) dismiss()
+                }
+                else -> {
+                }
+            }
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -40,7 +54,7 @@ class NewsBottomSheet() : BottomSheetDialogFragment() {
         }
         val url = arguments?.getString(WEBVIEW_URL_KEY) ?: ""
         val title = arguments?.getString(WEBVIEW_TITLE_KEY) ?: ""
-
+        val bottomSheet: RelativeLayout = view.findViewById(R.id.rootBottomSheet)
         val webView = view.findViewById<WebView>(R.id.newsWebView)
         webView.setWebViewClient(WebViewClient())
         val settings = webView.getSettings()
@@ -55,6 +69,10 @@ class NewsBottomSheet() : BottomSheetDialogFragment() {
         settings.setJavaScriptEnabled(true)
         settings.setBlockNetworkImage(false)
         webView.loadUrl(url)
+        webView.setOnTouchListener { v, event ->
+            bottomSheet.requestDisallowInterceptTouchEvent(true)
+            return@setOnTouchListener false
+        }
         val titleTextView = view.findViewById<TextView>(R.id.newsTitleTextView)
         titleTextView.text = title
 
@@ -68,26 +86,9 @@ class NewsBottomSheet() : BottomSheetDialogFragment() {
                 dialog.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)
             BottomSheetBehavior.from(bottomSheet).apply {
                 state = BottomSheetBehavior.STATE_EXPANDED
-                peekHeight = 80
                 addBottomSheetCallback(bottomSheetCallback)
             }
         }
         return dialog
-    }
-
-    private val bottomSheetCallback = object : BottomSheetBehavior.BottomSheetCallback() {
-        override fun onSlide(bottomSheet: View, slideOffset: Float) {
-        }
-
-        override fun onStateChanged(bottomSheet: View, newState: Int) {
-            when (newState) {
-                BottomSheetBehavior.STATE_COLLAPSED -> {
-                    if (!isRemoving) dismiss()
-                }
-                else -> {
-
-                }
-            }
-        }
     }
 }
