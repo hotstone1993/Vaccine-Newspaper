@@ -27,9 +27,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-    private val settingFragment : SettingFragment by lazy {
-        SettingFragment()
-    }
     private val newsFragment : NewsFragment by lazy {
         NewsFragment()
     }
@@ -39,10 +36,6 @@ class MainActivity : AppCompatActivity() {
 
     private val onNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
-            R.id.navigation_setting -> {
-                replace(R.id.container, settingFragment)
-                return@OnNavigationItemSelectedListener true
-            }
             R.id.navigation_news -> {
                 replace(R.id.container, newsFragment)
                 return@OnNavigationItemSelectedListener true
@@ -62,7 +55,7 @@ class MainActivity : AppCompatActivity() {
 
         requestPermission()
 
-        replace(R.id.container, settingFragment)
+        replace(R.id.container, newsFragment)
 
         val navigation: BottomNavigationView = findViewById(R.id.navigation)
         navigation.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
