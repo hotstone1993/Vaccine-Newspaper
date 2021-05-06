@@ -45,6 +45,7 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines"
     implementation "org.jsoup:jsoup:$jsoup"
     implementation "androidx.room:room-runtime:$room"
+    implementation "androidx.room:room-ktx:$room"
     kapt "androidx.room:room-compiler:$room"
 
     testImplementation 'junit:junit:4.+'

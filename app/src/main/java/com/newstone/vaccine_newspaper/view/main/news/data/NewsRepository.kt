@@ -21,4 +21,8 @@ object NewsRepository : BaseDataSource{
     fun setDate(newDate: String) {
         newsData.crawler.currDate = newDate
     }
+
+    fun getDate(): String {
+        return newsData.crawler.currDate
+    }
 }

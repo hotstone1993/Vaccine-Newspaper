@@ -1,8 +1,6 @@
 package com.newstone.vaccine_newspaper.view.main.news.adapter
 
 import android.content.Context
-import android.content.res.ColorStateList
-import android.graphics.Color
 import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +10,10 @@ import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.newstone.vaccine_newspaper.R
+import com.newstone.vaccine_newspaper.view.main.news.data.NewsRepository
+import com.newstone.vaccine_newspaper.view.main.news.database.NewsDatabase
+import com.newstone.vaccine_newspaper.view.main.news.database.NewsEntity
+import kotlin.concurrent.thread
 
 
 class NewsHolder(context:Context, parent: ViewGroup, private val newsData: MutableList<NewsItem>, private val startWebViewActivityFunction: (String, String)-> Unit) : RecyclerView.ViewHolder(LayoutInflater.from(context).inflate(
@@ -40,6 +42,9 @@ class NewsHolder(context:Context, parent: ViewGroup, private val newsData: Mutab
                 startWebViewActivityFunction(newsData[pos].url, newsData[pos].title)
                 newsData[pos].isClicked = true
                 itemView.setBackgroundColor(resources.getColor(R.color.news_after_click_item, null))
+                thread {
+                    NewsDatabase.getInstance(context).newsDAO().insert(NewsEntity(newsData[pos].url, NewsRepository.getDate()))
+                }
             }
         }
     }
