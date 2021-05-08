@@ -19,10 +19,12 @@ class NewsPresenter(val context: Context, private val view: NewsContract.View, p
         AtomicBoolean(false)
     }
 
-    fun List<NewsEntity>.check(url: String): Boolean {
+    fun MutableList<NewsEntity>.check(url: String): Boolean {
         for(entity in this) {
-            if(entity.url == url)
+            if(entity.url == url) {
+                this.remove(entity)
                 return true
+            }
         }
         return false
     }

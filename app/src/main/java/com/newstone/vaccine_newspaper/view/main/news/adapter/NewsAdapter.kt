@@ -1,7 +1,9 @@
 package com.newstone.vaccine_newspaper.view.main.news.adapter
 
 import android.content.Context
+import android.os.Build
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.newstone.vaccine_newspaper.view.main.model.BaseRecyclerModel
 
@@ -31,6 +33,7 @@ class NewsAdapter(private val context: Context, private val startWebViewActivity
         newsList.clear()
     }
 
+    @RequiresApi(Build.VERSION_CODES.M)
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         (holder as? NewsHolder)?.onBind(newsList[position])
     }

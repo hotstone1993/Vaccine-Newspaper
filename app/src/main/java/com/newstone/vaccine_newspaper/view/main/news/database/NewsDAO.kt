@@ -14,7 +14,7 @@ interface NewsDAO {
     fun insert(news: NewsEntity)
 
     @Query("SELECT * FROM news WHERE :currDate == date")
-    fun getAllNews(currDate: String) : List<NewsEntity>
+    fun getAllNews(currDate: String) : MutableList<NewsEntity>
 
     @Delete
     fun delete(news: NewsEntity)
