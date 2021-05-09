@@ -3,6 +3,7 @@ package com.newstone.vaccine_newspaper.view.main.news
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import com.newstone.vaccine_newspaper.view.main.news.adapter.NewsItem
+import com.newstone.vaccine_newspaper.view.main.util.ContentFilter
 import org.jsoup.Jsoup
 import java.net.URL
 import java.text.SimpleDateFormat
@@ -43,7 +44,9 @@ class NewsCrawler {
 
                 try {
                     val title = item.select("dt").select("a").get(1).text()
-                    list.add(NewsItem(title, url, bmp))
+                    if(ContentFilter.getInstance().check(title)) {
+                        list.add(NewsItem(title, url, bmp))
+                    }
                 } catch (e: Exception) {
                     continue
                 }
