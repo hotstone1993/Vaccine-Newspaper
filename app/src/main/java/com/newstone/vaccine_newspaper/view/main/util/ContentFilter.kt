@@ -1,6 +1,6 @@
 package com.newstone.vaccine_newspaper.view.main.util
 
-class ContentFilter {
+class ContentFilter private constructor() {
     val FILTER_LIST = listOf("백신", "COVID", "코로나", "접종")
 
     companion object {
