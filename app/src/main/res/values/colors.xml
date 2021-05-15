@@ -6,4 +6,6 @@
 
     <color name="news_before_click_item">#F0F3D5</color>
     <color name="news_after_click_item">#D8E18B</color>
+
+    <color name="video_time">#CC000000</color>
 </resources>
