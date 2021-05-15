@@ -17,8 +17,7 @@
         <ImageView
             android:id="@+id/newsImageView"
             android:layout_width="106dp"
-            android:layout_height="72dp"
-            app:srcCompat="@drawable/ic_item_defalut" />
+            android:layout_height="72dp" />
 
         <TextView
             android:id="@+id/titleTextView"
