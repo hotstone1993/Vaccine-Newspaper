@@ -11,7 +11,6 @@ import androidx.core.content.ContextCompat
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.newstone.vaccine_newspaper.R
 import com.newstone.vaccine_newspaper.view.main.news.NewsFragment
-import com.newstone.vaccine_newspaper.view.main.setting.SettingFragment
 import com.newstone.vaccine_newspaper.view.main.util.replace
 import com.newstone.vaccine_newspaper.view.main.video.VideoFragment
 
