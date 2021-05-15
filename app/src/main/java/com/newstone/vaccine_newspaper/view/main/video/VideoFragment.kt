@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModel
@@ -36,6 +37,8 @@ class VideoFragment: Fragment(), VideoContract.View {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_video, container, false)
+        progressBar = view.findViewById(R.id.videoProgressBar)
+        progressBar.visibility = View.INVISIBLE
         videoRecyclerView = view.findViewById(R.id.videoRecyclerView)
         videoRecyclerView.run {
             adapter = videoRecyclerAdapter
@@ -43,7 +46,6 @@ class VideoFragment: Fragment(), VideoContract.View {
         }
         return view
     }
-
 
     class VideoPresenterFactory(val context: Context, val view: VideoContract.View, val recyclerModel: BaseRecyclerModel) :
             ViewModelProvider.NewInstanceFactory() {
