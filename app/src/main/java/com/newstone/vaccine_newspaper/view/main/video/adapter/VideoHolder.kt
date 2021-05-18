@@ -12,7 +12,7 @@ import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.newstone.vaccine_newspaper.R
 
-class VideoHolder(context: Context, parent: ViewGroup, val videoList: MutableList<VideoItem>) : RecyclerView.ViewHolder(LayoutInflater.from(context).inflate(
+class VideoHolder(context: Context, parent: ViewGroup, val videoList: MutableList<VideoItem>, val startPlaybackActivityFunction: (String, String)-> Unit) : RecyclerView.ViewHolder(LayoutInflater.from(context).inflate(
         R.layout.item_video, parent, false)) {
 
     @RequiresApi(Build.VERSION_CODES.M)
@@ -41,6 +41,7 @@ class VideoHolder(context: Context, parent: ViewGroup, val videoList: MutableLis
         itemView.setOnClickListener {
             val pos = adapterPosition
             if(pos != RecyclerView.NO_POSITION) {
+                startPlaybackActivityFunction(videoList[pos].url, videoList[pos].title)
             }
         }
     }

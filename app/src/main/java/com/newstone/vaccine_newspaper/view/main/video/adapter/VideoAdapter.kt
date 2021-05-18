@@ -7,11 +7,11 @@ import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.newstone.vaccine_newspaper.view.main.model.BaseRecyclerModel
 
-class VideoAdapter(val context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>(), BaseRecyclerModel {
+class VideoAdapter(val context: Context, val startPlaybackActivityFunction: (String, String)-> Unit) : RecyclerView.Adapter<RecyclerView.ViewHolder>(), BaseRecyclerModel {
     val videoList = mutableListOf<VideoItem>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return VideoHolder(context, parent, videoList)
+        return VideoHolder(context, parent, videoList, startPlaybackActivityFunction)
     }
 
     override fun addItem(item: Any) {

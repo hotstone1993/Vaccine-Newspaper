@@ -48,6 +48,7 @@ dependencies {
     implementation "androidx.room:room-ktx:$room"
     implementation "androidx.room:room-ktx:$room"
     implementation "com.google.android.exoplayer:exoplayer-core:$exoplayer"
+    implementation "com.google.android.exoplayer:exoplayer-dash:$exoplayer"
     implementation "com.google.android.exoplayer:exoplayer-ui:$exoplayer"
     kapt "androidx.room:room-compiler:$room"
 
