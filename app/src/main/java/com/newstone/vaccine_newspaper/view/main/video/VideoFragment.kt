@@ -66,27 +66,29 @@ class VideoFragment: Fragment(), VideoContract.View {
         super.onStart()
         val handler = Handler()
 
-        thread {
-            for (i in 0 until 5) {
-                var previewBitmap: Bitmap?
-                var channelIcon: Bitmap?
+        if(videoRecyclerAdapter.itemCount == 0) {
+            thread {
+                for (i in 0 until 5) {
+                    var previewBitmap: Bitmap?
+                    var channelIcon: Bitmap?
 
-                try {
-                    previewBitmap = BitmapFactory.decodeStream(URL("https://i.ytimg.com/an_webp/GsBqqFXvAYI/mqdefault_6s.webp?du=3000&sqp=CNTUgoUG&rs=AOn4CLDjrfaSYw2c1AhY8TnBd1aRxq_A4A").openConnection().getInputStream())
-                    channelIcon = BitmapFactory.decodeStream(URL("https://yt3.ggpht.com/ytc/AAUvwniTc1jeP6U8pTz7E5JktLZiMcMIJ9AWYRY4LGueZg=s48-c-k-c0x00ffffff-no-rj").openConnection().getInputStream())
-                } catch (e: Exception) {
-                    previewBitmap = null
-                    channelIcon = null
-                }
-                val display = requireActivity().windowManager.defaultDisplay
-                val point = Point()
-                display.getSize(point)
-                val width = point.x
-                previewBitmap = previewBitmap?.scale(width, (width * VIDEO_RATE).toInt())
-                videoRecyclerAdapter.addItem(VideoItem("https://www.youtube.com/watch?v=GsBqqFXvAYI", previewBitmap, "애플 광고에서 들은 그 노래! 간만에 등장한 고막 취저 밴드ㅣAJR(에이제이알) 이야기",
-                        false, "2021. 3. 31", "우키팝", "176,928회", "9:05", channelIcon))
-                handler.post {
-                    videoRecyclerAdapter.notifyData()
+                    try {
+                        previewBitmap = BitmapFactory.decodeStream(URL("https://i.ytimg.com/an_webp/GsBqqFXvAYI/mqdefault_6s.webp?du=3000&sqp=CNTUgoUG&rs=AOn4CLDjrfaSYw2c1AhY8TnBd1aRxq_A4A").openConnection().getInputStream())
+                        channelIcon = BitmapFactory.decodeStream(URL("https://yt3.ggpht.com/ytc/AAUvwniTc1jeP6U8pTz7E5JktLZiMcMIJ9AWYRY4LGueZg=s48-c-k-c0x00ffffff-no-rj").openConnection().getInputStream())
+                    } catch (e: Exception) {
+                        previewBitmap = null
+                        channelIcon = null
+                    }
+                    val display = requireActivity().windowManager.defaultDisplay
+                    val point = Point()
+                    display.getSize(point)
+                    val width = point.x
+                    previewBitmap = previewBitmap?.scale(width, (width * VIDEO_RATE).toInt())
+                    videoRecyclerAdapter.addItem(VideoItem("https://www.youtube.com/watch?v=GsBqqFXvAYI", previewBitmap, "애플 광고에서 들은 그 노래! 간만에 등장한 고막 취저 밴드ㅣAJR(에이제이알) 이야기",
+                            false, "2021. 3. 31", "우키팝", "176,928회", "9:05", channelIcon))
+                    handler.post {
+                        videoRecyclerAdapter.notifyData()
+                    }
                 }
             }
         }
