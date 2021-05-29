@@ -14,6 +14,7 @@ buildscript {
         jsoup = "1.11.3"
         room = "2.2.6"
         exoplayer = "2.14.0"
+        youtube_extracter = "master-SNAPSHOT"
     }
 
     repositories {
@@ -33,6 +34,7 @@ allprojects {
     repositories {
         google()
         jcenter()
+        maven { url "https://jitpack.io" }
     }
 }
 

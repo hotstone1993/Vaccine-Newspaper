@@ -19,7 +19,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".view.main.video.PlaybackActivity" />
+        <activity android:name=".view.main.video.PlaybackActivity"
+            android:theme="@style/Theme.VaccineNewspaper.NoActionBar" />
     </application>
 
 </manifest>

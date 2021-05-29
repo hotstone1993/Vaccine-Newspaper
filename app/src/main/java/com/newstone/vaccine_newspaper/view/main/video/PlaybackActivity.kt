@@ -65,15 +65,14 @@ class PlaybackActivity: ComponentActivity(), Player.Listener {
             trackSelector.buildUponParameters().setMaxVideoSizeSd()
         )
         player = SimpleExoPlayer.Builder(this)
-            .setTrackSelector(trackSelector)
-            .build()
+                .setTrackSelector(trackSelector)
+                .build()
         player.addListener(this)
         playerView.player = player
 
         val mediaItem =
             MediaItem.Builder()
                 .setUri(url)
-                .setMimeType(MimeTypes.APPLICATION_MPD)
                 .build()
 
         player.setMediaItem(mediaItem)

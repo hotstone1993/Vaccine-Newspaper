@@ -1,5 +1,6 @@
 package com.newstone.vaccine_newspaper.view.main.video
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
@@ -7,6 +8,7 @@ import android.graphics.BitmapFactory
 import android.graphics.Point
 import android.os.Bundle
 import android.os.Handler
+import android.util.SparseArray
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -28,6 +30,10 @@ import com.newstone.vaccine_newspaper.view.main.video.presenter.VideoContract
 import com.newstone.vaccine_newspaper.view.main.video.presenter.VideoPresenter
 import java.net.URL
 import kotlin.concurrent.thread
+import at.huber.youtubeExtractor.VideoMeta;
+import at.huber.youtubeExtractor.YouTubeExtractor;
+import at.huber.youtubeExtractor.YtFile;
+
 
 class VideoFragment: Fragment(), VideoContract.View {
     private val VIDEO_RATE = 9.0f / 16.0f
@@ -68,7 +74,7 @@ class VideoFragment: Fragment(), VideoContract.View {
 
         if(videoRecyclerAdapter.itemCount == 0) {
             thread {
-                for (i in 0 until 5) {
+                for (i in 0 until 1) {
                     var previewBitmap: Bitmap?
                     var channelIcon: Bitmap?
 
@@ -84,11 +90,19 @@ class VideoFragment: Fragment(), VideoContract.View {
                     display.getSize(point)
                     val width = point.x
                     previewBitmap = previewBitmap?.scale(width, (width * VIDEO_RATE).toInt())
-                    videoRecyclerAdapter.addItem(VideoItem("https://www.youtube.com/watch?v=GsBqqFXvAYI", previewBitmap, "애플 광고에서 들은 그 노래! 간만에 등장한 고막 취저 밴드ㅣAJR(에이제이알) 이야기",
-                            false, "2021. 3. 31", "우키팝", "176,928회", "9:05", channelIcon))
-                    handler.post {
-                        videoRecyclerAdapter.notifyData()
-                    }
+                    object : YouTubeExtractor(requireContext()) {
+                        override fun onExtractionComplete(ytFiles: SparseArray<YtFile>?, vMeta: VideoMeta?) {
+                            if (ytFiles != null) {
+                                val itag = 22
+                                val downloadUrl: String = ytFiles[itag].getUrl()
+                                videoRecyclerAdapter.addItem(VideoItem(downloadUrl, previewBitmap, "애플 광고에서 들은 그 노래! 간만에 등장한 고막 취저 밴드ㅣAJR(에이제이알) 이야기",
+                                        false, "2021. 3. 31", "우키팝", "176,928회", "9:05", channelIcon))
+                                handler.post {
+                                    videoRecyclerAdapter.notifyData()
+                                }
+                            }
+                        }
+                    }.extract("https://youtu.be/Uvtf4V5pOn8", true, true)
                 }
             }
         }
