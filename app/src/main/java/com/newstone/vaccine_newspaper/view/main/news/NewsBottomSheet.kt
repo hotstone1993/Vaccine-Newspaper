@@ -1,6 +1,9 @@
 package com.newstone.vaccine_newspaper.view.main.news
 
 import android.app.Dialog
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context.CLIPBOARD_SERVICE
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,9 +14,11 @@ import android.webkit.WebViewClient
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
+import android.widget.Toast
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.newstone.vaccine_newspaper.R
+
 
 class NewsBottomSheet() : BottomSheetDialogFragment() {
     companion object {
@@ -75,6 +80,12 @@ class NewsBottomSheet() : BottomSheetDialogFragment() {
         }
         val titleTextView = view.findViewById<TextView>(R.id.newsTitleTextView)
         titleTextView.text = title
+        titleTextView.setOnClickListener {
+            Toast.makeText(requireContext(), "링크가 복사 되었습니다.", Toast.LENGTH_SHORT).show()
+            val clipboard = requireActivity().getSystemService(CLIPBOARD_SERVICE) as ClipboardManager?
+            val clip: ClipData = ClipData.newPlainText("URL", url)
+            clipboard?.setPrimaryClip(clip)
+        }
 
         return view
     }
