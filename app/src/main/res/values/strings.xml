@@ -5,4 +5,8 @@
     <string name="setting">Setting</string>
     <string name="news">News</string>
     <string name="video">YouTube</string>
+
+    <string name="appbar_scrolling_view_behavior" translatable="false">
+        com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior
+    </string>
 </resources>

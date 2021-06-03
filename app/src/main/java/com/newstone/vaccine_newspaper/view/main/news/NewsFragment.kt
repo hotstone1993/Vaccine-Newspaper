@@ -9,6 +9,8 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModel
@@ -78,7 +80,8 @@ class NewsFragment: Fragment(), NewsContract.View {
         dateTextView.setOnClickListener {
             DatePickerDialog(requireContext(), datePicker, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show();
         }
-
+        val appToolbar = view.findViewById<Toolbar>(R.id.appToolbar)
+        (requireActivity() as AppCompatActivity).setSupportActionBar(appToolbar)
         // Crawling
         present.loadNews()
 
