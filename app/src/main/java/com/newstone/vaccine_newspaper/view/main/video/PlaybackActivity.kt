@@ -2,7 +2,9 @@ package com.newstone.vaccine_newspaper.view.main.video
 
 import android.os.Bundle
 import android.text.TextUtils
+import android.view.View
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.activity.ComponentActivity
 import com.google.android.exoplayer2.ExoPlaybackException
@@ -20,6 +22,7 @@ class PlaybackActivity: ComponentActivity(), Player.Listener {
         val VIDEO_TITLE = "VIDEO_TITLE"
     }
 
+    private lateinit var playbackController: LinearLayout
     private lateinit var player: SimpleExoPlayer
     private lateinit var playerView: PlayerView
     private lateinit var url: String
@@ -30,6 +33,7 @@ class PlaybackActivity: ComponentActivity(), Player.Listener {
 
         url = intent.getStringExtra(VIDEO_URL) ?: "https://www.youtube.com/watch?v=L8Xq15NTuCc"
         val title = intent.getStringExtra(VIDEO_TITLE) ?: "Unknown"
+        playbackController = findViewById(R.id.playbackController)
         val videoTitleTextView = findViewById<TextView>(R.id.videoTitleTextView)
         videoTitleTextView.text = title
         videoTitleTextView.setEllipsize(TextUtils.TruncateAt.MARQUEE)
@@ -71,7 +75,12 @@ class PlaybackActivity: ComponentActivity(), Player.Listener {
                 .build()
         player.addListener(this)
         playerView.player = player
-
+        playerView.setControllerVisibilityListener {
+            when(it) {
+                0 -> playbackController.visibility = View.VISIBLE
+                else -> playbackController.visibility = View.GONE
+            }
+        }
         val mediaItem =
             MediaItem.Builder()
                 .setUri(url)
