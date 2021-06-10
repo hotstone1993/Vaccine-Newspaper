@@ -37,6 +37,23 @@ class PlaybackActivity: ComponentActivity(), Player.Listener {
         setContentView(R.layout.activity_playback)
 
         playerView = findViewById(R.id.playerView)
+
+        val title = intent.getStringExtra(VIDEO_TITLE) ?: "Unknown"
+        playbackController = findViewById(R.id.playbackController)
+        val videoTitleTextView = findViewById<TextView>(R.id.videoTitleTextView)
+        videoTitleTextView.text = title
+        videoTitleTextView.setEllipsize(TextUtils.TruncateAt.MARQUEE)
+        videoTitleTextView.setSelected(true)
+        videoTitleTextView.setSingleLine(true)
+
+        val backBtn = findViewById<ImageView>(R.id.videoBackBtn)
+        backBtn.setOnClickListener{
+            finish()
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
         if(player == null) {
             url = intent.getStringExtra(VIDEO_URL) ?: "https://www.youtube.com/watch?v=L8Xq15NTuCc"
             object : YouTubeExtractor(this) {
@@ -55,18 +72,6 @@ class PlaybackActivity: ComponentActivity(), Player.Listener {
         } else {
             initPlayerView()
             player?.play()
-        }
-        val title = intent.getStringExtra(VIDEO_TITLE) ?: "Unknown"
-        playbackController = findViewById(R.id.playbackController)
-        val videoTitleTextView = findViewById<TextView>(R.id.videoTitleTextView)
-        videoTitleTextView.text = title
-        videoTitleTextView.setEllipsize(TextUtils.TruncateAt.MARQUEE)
-        videoTitleTextView.setSelected(true)
-        videoTitleTextView.setSingleLine(true)
-
-        val backBtn = findViewById<ImageView>(R.id.videoBackBtn)
-        backBtn.setOnClickListener{
-            finish()
         }
     }
 
