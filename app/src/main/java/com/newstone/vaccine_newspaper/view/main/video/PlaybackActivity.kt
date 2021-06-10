@@ -2,11 +2,15 @@ package com.newstone.vaccine_newspaper.view.main.video
 
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.SparseArray
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.activity.ComponentActivity
+import at.huber.youtubeExtractor.VideoMeta
+import at.huber.youtubeExtractor.YouTubeExtractor
+import at.huber.youtubeExtractor.YtFile
 import com.google.android.exoplayer2.ExoPlaybackException
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.Player
@@ -20,18 +24,38 @@ class PlaybackActivity: ComponentActivity(), Player.Listener {
     companion object{
         val VIDEO_URL = "VIDEO_URL"
         val VIDEO_TITLE = "VIDEO_TITLE"
+        private var player: SimpleExoPlayer? = null
     }
 
     private lateinit var playbackController: LinearLayout
-    private lateinit var player: SimpleExoPlayer
     private lateinit var playerView: PlayerView
     private lateinit var url: String
+    private var rotationFlag = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_playback)
 
-        url = intent.getStringExtra(VIDEO_URL) ?: "https://www.youtube.com/watch?v=L8Xq15NTuCc"
+        playerView = findViewById(R.id.playerView)
+        if(player == null) {
+            url = intent.getStringExtra(VIDEO_URL) ?: "https://www.youtube.com/watch?v=L8Xq15NTuCc"
+            object : YouTubeExtractor(this) {
+                override fun onExtractionComplete(
+                    ytFiles: SparseArray<YtFile>?,
+                    vMeta: VideoMeta?
+                ) {
+                    if (ytFiles != null) {
+                        val itag = 22
+                        url = ytFiles[itag].getUrl()
+                        initExoPlayer()
+                        player?.play()
+                    }
+                }
+            }.extract(url, true, true)
+        } else {
+            initPlayerView()
+            player?.play()
+        }
         val title = intent.getStringExtra(VIDEO_TITLE) ?: "Unknown"
         playbackController = findViewById(R.id.playbackController)
         val videoTitleTextView = findViewById<TextView>(R.id.videoTitleTextView)
@@ -44,25 +68,26 @@ class PlaybackActivity: ComponentActivity(), Player.Listener {
         backBtn.setOnClickListener{
             finish()
         }
-
-        playerView = findViewById(R.id.playerView)
-        initExoPlayer()
-    }
-
-    override fun onStart() {
-        super.onStart()
-        player.play()
     }
 
     override fun onStop() {
         super.onStop()
-        releasePlayer()
+        if(rotationFlag) {
+            releasePlayer()
+            player = null
+            rotationFlag = false
+        }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        rotationFlag = true
     }
 
     override fun onPlayerError(error: ExoPlaybackException) {
         super.onPlayerError(error)
         initExoPlayer()
-        player.play()
+        player?.play()
     }
 
     fun initExoPlayer() {
@@ -73,7 +98,18 @@ class PlaybackActivity: ComponentActivity(), Player.Listener {
         player = SimpleExoPlayer.Builder(this)
                 .setTrackSelector(trackSelector)
                 .build()
-        player.addListener(this)
+        player?.addListener(this)
+        initPlayerView()
+        val mediaItem =
+            MediaItem.Builder()
+                .setUri(url)
+                .build()
+
+        player?.setMediaItem(mediaItem)
+        player?.prepare()
+    }
+
+    private fun initPlayerView() {
         playerView.player = player
         playerView.setControllerVisibilityListener {
             when(it) {
@@ -81,17 +117,11 @@ class PlaybackActivity: ComponentActivity(), Player.Listener {
                 else -> playbackController.visibility = View.GONE
             }
         }
-        val mediaItem =
-            MediaItem.Builder()
-                .setUri(url)
-                .build()
-
-        player.setMediaItem(mediaItem)
-        player.prepare()
+        playerView.setBackgroundColor(resources.getColor(R.color.black, null))
     }
 
     fun releasePlayer() {
-        player.removeListener(this)
-        player.release()
+        player?.removeListener(this)
+        player?.release()
     }
 }

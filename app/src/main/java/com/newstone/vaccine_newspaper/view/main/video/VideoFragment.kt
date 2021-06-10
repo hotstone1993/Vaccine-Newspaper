@@ -90,19 +90,11 @@ class VideoFragment: Fragment(), VideoContract.View {
                     display.getSize(point)
                     val width = point.x
                     previewBitmap = previewBitmap?.scale(width, (width * VIDEO_RATE).toInt())
-                    object : YouTubeExtractor(requireContext()) {
-                        override fun onExtractionComplete(ytFiles: SparseArray<YtFile>?, vMeta: VideoMeta?) {
-                            if (ytFiles != null) {
-                                val itag = 22
-                                val downloadUrl: String = ytFiles[itag].getUrl()
-                                videoRecyclerAdapter.addItem(VideoItem(downloadUrl, previewBitmap, "애플 광고에서 들은 그 노래! 간만에 등장한 고막 취저 밴드ㅣAJR(에이제이알) 이야기",
-                                        false, "2021. 3. 31", "우키팝", "176,928회", "9:05", channelIcon))
-                                handler.post {
-                                    videoRecyclerAdapter.notifyData()
-                                }
-                            }
-                        }
-                    }.extract("https://youtu.be/Uvtf4V5pOn8", true, true)
+                    videoRecyclerAdapter.addItem(VideoItem("https://youtu.be/Uvtf4V5pOn8", previewBitmap, "애플 광고에서 들은 그 노래! 간만에 등장한 고막 취저 밴드ㅣAJR(에이제이알) 이야기",
+                        false, "2021. 3. 31", "우키팝", "176,928회", "9:05", channelIcon))
+                    handler.post {
+                        videoRecyclerAdapter.notifyData()
+                    }
                 }
             }
         }
