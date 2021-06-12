@@ -1,6 +1,10 @@
 package com.newstone.vaccine_newspaper.view.main.video
 
+import android.annotation.SuppressLint
+import android.content.Context
 import android.os.Bundle
+import android.os.Handler
+import android.os.Message
 import android.text.TextUtils
 import android.util.SparseArray
 import android.view.View
@@ -25,11 +29,11 @@ class PlaybackActivity: ComponentActivity(), Player.Listener {
         val VIDEO_URL = "VIDEO_URL"
         val VIDEO_TITLE = "VIDEO_TITLE"
         private var player: SimpleExoPlayer? = null
+        private var url: String = ""
     }
 
     private lateinit var playbackController: LinearLayout
     private lateinit var playerView: PlayerView
-    private lateinit var url: String
     private var rotationFlag = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,19 +60,12 @@ class PlaybackActivity: ComponentActivity(), Player.Listener {
         super.onStart()
         if(player == null) {
             url = intent.getStringExtra(VIDEO_URL) ?: "https://www.youtube.com/watch?v=L8Xq15NTuCc"
-            object : YouTubeExtractor(this) {
-                override fun onExtractionComplete(
-                    ytFiles: SparseArray<YtFile>?,
-                    vMeta: VideoMeta?
-                ) {
-                    if (ytFiles != null) {
-                        val itag = 22
-                        url = ytFiles[itag].getUrl()
-                        initExoPlayer()
-                        player?.play()
-                    }
-                }
-            }.extract(url, true, true)
+            val initRunnable = Runnable {
+                initExoPlayer()
+                player?.play()
+            }
+            val extractor = CustomYouTubeExtractor(this, initRunnable)
+            extractor.extract(url, true, true)
         } else {
             initPlayerView()
             player?.play()
@@ -122,7 +119,7 @@ class PlaybackActivity: ComponentActivity(), Player.Listener {
                 else -> playbackController.visibility = View.GONE
             }
         }
-        playerView.setBackgroundColor(resources.getColor(R.color.black, null))
+        playerView.setBackgroundColor(resources.getColor(R.color.black))
         playerView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE or
         View.SYSTEM_UI_FLAG_FULLSCREEN or
         View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
@@ -134,5 +131,17 @@ class PlaybackActivity: ComponentActivity(), Player.Listener {
     fun releasePlayer() {
         player?.removeListener(this)
         player?.release()
+    }
+
+    class CustomYouTubeExtractor(context: Context, val initRunnable: Runnable) : YouTubeExtractor(context) {
+        override fun onExtractionComplete(ytFiles: SparseArray<YtFile>?, videoMeta: VideoMeta?) {
+            if (ytFiles != null) {
+                val itag = 22
+                Handler().post {
+                    url = ytFiles[itag].getUrl()
+                }
+                Handler().post(initRunnable)
+            }
+        }
     }
 }
