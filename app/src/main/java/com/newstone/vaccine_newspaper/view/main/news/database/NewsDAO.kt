@@ -6,8 +6,6 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy.REPLACE
 import androidx.room.Query
 
-import java.util.*
-
 @Dao
 interface NewsDAO {
     @Insert(onConflict = REPLACE)

@@ -4,7 +4,6 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import com.newstone.vaccine_newspaper.view.main.model.BaseRecyclerModel
 import com.newstone.vaccine_newspaper.view.main.news.adapter.NewsItem
-import com.newstone.vaccine_newspaper.view.main.news.data.NewsData
 import com.newstone.vaccine_newspaper.view.main.news.data.NewsRepository
 import com.newstone.vaccine_newspaper.view.main.news.database.NewsDatabase
 import com.newstone.vaccine_newspaper.view.main.news.database.NewsEntity

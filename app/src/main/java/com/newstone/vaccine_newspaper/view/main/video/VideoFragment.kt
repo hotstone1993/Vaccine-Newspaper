@@ -1,6 +1,5 @@
 package com.newstone.vaccine_newspaper.view.main.video
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
@@ -8,7 +7,6 @@ import android.graphics.BitmapFactory
 import android.graphics.Point
 import android.os.Bundle
 import android.os.Handler
-import android.util.SparseArray
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,9 +28,6 @@ import com.newstone.vaccine_newspaper.view.main.video.presenter.VideoContract
 import com.newstone.vaccine_newspaper.view.main.video.presenter.VideoPresenter
 import java.net.URL
 import kotlin.concurrent.thread
-import at.huber.youtubeExtractor.VideoMeta;
-import at.huber.youtubeExtractor.YouTubeExtractor;
-import at.huber.youtubeExtractor.YtFile;
 
 
 class VideoFragment: Fragment(), VideoContract.View {

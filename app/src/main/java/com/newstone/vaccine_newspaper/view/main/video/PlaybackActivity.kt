@@ -1,10 +1,8 @@
 package com.newstone.vaccine_newspaper.view.main.video
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.os.Handler
-import android.os.Message
 import android.text.TextUtils
 import android.util.SparseArray
 import android.view.View
