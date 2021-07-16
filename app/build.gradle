@@ -51,6 +51,7 @@ dependencies {
     implementation "com.google.android.exoplayer:exoplayer-core:$exoplayer"
     implementation "com.google.android.exoplayer:exoplayer-dash:$exoplayer"
     implementation "com.google.android.exoplayer:exoplayer-ui:$exoplayer"
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:$swiperefreshlayout"
     kapt "androidx.room:room-compiler:$room"
 
     testImplementation 'junit:junit:4.+'

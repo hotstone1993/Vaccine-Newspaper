@@ -17,6 +17,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.newstone.vaccine_newspaper.R
 import com.newstone.vaccine_newspaper.view.main.model.BaseRecyclerModel
 import com.newstone.vaccine_newspaper.view.main.news.adapter.NewsAdapter
@@ -26,7 +27,7 @@ import com.newstone.vaccine_newspaper.view.main.news.presenter.NewsPresenter
 import java.text.SimpleDateFormat
 import java.util.*
 
-class NewsFragment: Fragment(), NewsContract.View {
+class NewsFragment: Fragment(), NewsContract.View, SwipeRefreshLayout.OnRefreshListener {
     private val present: NewsPresenter by viewModels {
         NewsPresenterFactory(requireActivity(), this@NewsFragment, newsRecyclerAdapter)
     }
@@ -41,6 +42,7 @@ class NewsFragment: Fragment(), NewsContract.View {
     }
     private lateinit var reloadBtn:Button
     private lateinit var dateTextView: TextView
+    private lateinit var swipeRefreshLayout: SwipeRefreshLayout
 
     private val calendar =  Calendar.getInstance()
     var datePicker =
@@ -64,6 +66,8 @@ class NewsFragment: Fragment(), NewsContract.View {
 
         // UI
         loadingProgressBar = view.findViewById(R.id.loadingProgressBar)
+        swipeRefreshLayout = view.findViewById(R.id.pullToRefresh)
+        swipeRefreshLayout.setOnRefreshListener(this)
         hideProgressBar()
         newsRecyclerView = view.findViewById(R.id.newsRecyclerView)
         newsRecyclerView.run {
@@ -106,5 +110,13 @@ class NewsFragment: Fragment(), NewsContract.View {
         NewsRepository.resetData()
         newsRecyclerAdapter.clearData()
         newsRecyclerAdapter.notifyData()
+    }
+
+    override fun onRefresh() {
+        showProgressBar()
+        resetNews()
+        present.loadNews()
+        swipeRefreshLayout.setRefreshing(false)
+        hideProgressBar()
     }
 }
