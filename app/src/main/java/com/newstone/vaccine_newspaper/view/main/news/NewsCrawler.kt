@@ -1,11 +1,8 @@
 package com.newstone.vaccine_newspaper.view.main.news
 
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import com.newstone.vaccine_newspaper.view.main.news.adapter.NewsItem
 import com.newstone.vaccine_newspaper.view.main.util.ContentFilter
 import org.jsoup.Jsoup
-import java.net.URL
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -35,17 +32,11 @@ class NewsCrawler {
             for (item in li) {
                 val url = item.select("dt").select("a").get(0).attr("href")
                 val imageUrl = item.select("dt").select("a").get(0).select("img").attr("src")
-                var bmp: Bitmap? = null
-                try {
-                    bmp = BitmapFactory.decodeStream(URL(imageUrl).openConnection().getInputStream())
-                } catch (e:Exception) {
-                    bmp = null
-                }
 
                 try {
                     val title = item.select("dt").select("a").get(1).text()
                     if(ContentFilter.getInstance().check(title)) {
-                        list.add(NewsItem(title, url, bmp))
+                        list.add(NewsItem(title, url, imageUrl))
                     }
                 } catch (e: Exception) {
                     continue
