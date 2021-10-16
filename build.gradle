@@ -16,6 +16,8 @@ buildscript {
         exoplayer = "2.14.0"
         youtube_extracter = "master-SNAPSHOT"
         swiperefreshlayout = "1.1.0"
+        glide = "4.12.0"
+        dagger = "2.20"
     }
 
     repositories {
