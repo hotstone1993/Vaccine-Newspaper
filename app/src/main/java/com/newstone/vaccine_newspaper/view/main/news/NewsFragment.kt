@@ -19,6 +19,9 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.newstone.vaccine_newspaper.R
+import com.newstone.vaccine_newspaper.view.main.di.VNApplication
+import com.newstone.vaccine_newspaper.view.main.di.component.DaggerFragmentComponent
+import com.newstone.vaccine_newspaper.view.main.di.module.FragmentModule
 import com.newstone.vaccine_newspaper.view.main.model.BaseRecyclerModel
 import com.newstone.vaccine_newspaper.view.main.news.adapter.NewsAdapter
 import com.newstone.vaccine_newspaper.view.main.news.data.NewsRepository
@@ -26,6 +29,7 @@ import com.newstone.vaccine_newspaper.view.main.news.presenter.NewsContract
 import com.newstone.vaccine_newspaper.view.main.news.presenter.NewsPresenter
 import java.text.SimpleDateFormat
 import java.util.*
+import javax.inject.Inject
 
 class NewsFragment: Fragment(), NewsContract.View, SwipeRefreshLayout.OnRefreshListener {
     private val present: NewsPresenter by viewModels {
@@ -34,18 +38,23 @@ class NewsFragment: Fragment(), NewsContract.View, SwipeRefreshLayout.OnRefreshL
     private val newsRecyclerAdapter: NewsAdapter by lazy {
         NewsAdapter(requireContext(), startWebViewActivityFunction)
     }
-    lateinit var loadingProgressBar: ProgressBar
-    private lateinit var newsRecyclerView: RecyclerView
     private val startWebViewActivityFunction = { url: String, title: String -> Unit
         NewsBottomSheet.create(url, title)
             .show(requireActivity().supportFragmentManager, "NewsBottomSheet")
     }
+
+    // UI
+    lateinit var loadingProgressBar: ProgressBar
+    private lateinit var newsRecyclerView: RecyclerView
+
     private lateinit var reloadBtn:Button
     private lateinit var dateTextView: TextView
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
 
-    private val calendar =  Calendar.getInstance()
-    var datePicker =
+    @Inject
+    lateinit var calendar: Calendar
+
+    var datePicker: DatePickerDialog.OnDateSetListener =
         DatePickerDialog.OnDateSetListener { view, year, month, dayOfMonth ->
             calendar.set(Calendar.YEAR, year)
             calendar.set(Calendar.MONTH, month)
@@ -63,6 +72,11 @@ class NewsFragment: Fragment(), NewsContract.View, SwipeRefreshLayout.OnRefreshL
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_news, container, false)
+
+        val fragmentComponent = DaggerFragmentComponent.builder().appComponent((requireActivity().application as VNApplication).appComponent).fragmentModule(
+            FragmentModule(this)
+        ).build()
+        fragmentComponent.inject(this)
 
         // UI
         loadingProgressBar = view.findViewById(R.id.loadingProgressBar)
