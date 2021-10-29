@@ -1,7 +1,9 @@
-package com.newstone.vaccine_newspaper.view.main.news.presenter
+package com.newstone.vaccine_newspaper.view.main.news.viewmodel
 
-import android.content.Context
-import androidx.lifecycle.ViewModel
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.newstone.vaccine_newspaper.view.main.model.BaseRecyclerModel
 import com.newstone.vaccine_newspaper.view.main.news.adapter.NewsItem
 import com.newstone.vaccine_newspaper.view.main.news.data.NewsRepository
@@ -11,12 +13,12 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.util.concurrent.atomic.AtomicBoolean
 
-class NewsPresenter(val context: Context, private val view: NewsContract.View, private val recyclerModel: BaseRecyclerModel) : ViewModel(), NewsContract.ViewModel{
-    val isLoading:AtomicBoolean by lazy {
-        AtomicBoolean(false)
-    }
+class NewsViewModel(application: Application, private val recyclerModel: BaseRecyclerModel) : AndroidViewModel(application), NewsContract.ViewModel{
+    private var _loadingStatus = MutableLiveData<Boolean>()
+
+    val loadingStatus:LiveData<Boolean>
+        get() = _loadingStatus
 
     fun MutableList<NewsEntity>.check(url: String): Boolean {
         for(entity in this) {
@@ -28,14 +30,17 @@ class NewsPresenter(val context: Context, private val view: NewsContract.View, p
         return false
     }
 
-    override fun loadNews() {
-        if(NewsRepository.isLoaded)
+    override fun loadNews(force: Boolean) {
+        if(NewsRepository.isLoaded && !force)
             return
 
+        NewsRepository.resetData()
+        recyclerModel.clearData()
+        recyclerModel.notifyData()
+
         CoroutineScope(Dispatchers.Main).launch {
-            isLoading.set(false)
-            view.showProgressBar()
-            val newsDao = NewsDatabase.getInstance(context).newsDAO()
+            showProgressBar()
+            val newsDao = NewsDatabase.getInstance(getApplication<Application>().applicationContext).newsDAO()
 
             withContext(Dispatchers.IO) {
                 val result = newsDao.getAllNews(NewsRepository.getDate())
@@ -49,9 +54,16 @@ class NewsPresenter(val context: Context, private val view: NewsContract.View, p
                 }
             }
             recyclerModel.notifyData()
-            view.hideProgressBar()
-            isLoading.set(true)
             NewsRepository.isLoaded = true
+            hideProgressBar()
         }
+    }
+
+    override fun showProgressBar() {
+        _loadingStatus.value = true
+    }
+
+    override fun hideProgressBar() {
+        _loadingStatus.value = false
     }
 }

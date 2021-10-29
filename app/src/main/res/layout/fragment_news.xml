@@ -1,78 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
+<layout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appbar"
+    <data>
+        <import type="android.view.View"/>
+        <import type="com.newstone.vaccine_newspaper.view.main.util.BindingConverters"/>
+
+        <variable
+            name="vm"
+            type="com.newstone.vaccine_newspaper.view.main.news.viewmodel.NewsViewModel" />
+
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fitsSystemWindows="true"
-        app:layout_scrollFlags="scroll|enterAlways">
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/appToolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?android:attr/actionBarSize"
-            app:title="@string/app_name"
-            app:titleTextColor="@android:color/white"
-            app:layout_scrollFlags="scroll|enterAlways">
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <TextView
-                    android:id="@+id/dateTextView"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="8"
-                    android:importantForAutofill="auto"
-                    android:clickable="true"
-                    android:ems="10"
-                    android:focusable="false"
-                    android:inputType=""
-                    android:singleLine="true"
-                    android:textSize="30sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/white"
-                    android:gravity="center_vertical"
-                    app:layout_constraintBottom_toTopOf="@+id/newsRecyclerView"
-                    app:layout_constraintEnd_toStartOf="@+id/reloadBtn"
-                    app:layout_constraintHorizontal_bias="1.0" />
-                <Button
-                    android:id="@+id/reloadBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="ReLoad"
-                    android:layout_gravity="bottom"/>
-            </LinearLayout>
-        </androidx.appcompat.widget.Toolbar>
-    </com.google.android.material.appbar.AppBarLayout>
+        android:layout_height="match_parent">
 
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/pullToRefresh"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/newsRecyclerView"
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintHorizontal_bias="0.0"
-            tools:listitem="@layout/item_news"
-            android:orientation="vertical"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+            android:fitsSystemWindows="true"
+            app:layout_scrollFlags="scroll|enterAlways">
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/appToolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?android:attr/actionBarSize"
+                app:title="@string/app_name"
+                app:titleTextColor="@android:color/white"
+                app:layout_scrollFlags="scroll|enterAlways">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:id="@+id/dateTextView"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="8"
+                        android:importantForAutofill="auto"
+                        android:clickable="true"
+                        android:ems="10"
+                        android:focusable="false"
+                        android:inputType=""
+                        android:singleLine="true"
+                        android:textSize="30sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/white"
+                        android:gravity="center_vertical"
+                        app:layout_constraintBottom_toTopOf="@+id/newsRecyclerView"
+                        app:layout_constraintEnd_toStartOf="@+id/reloadBtn"
+                        app:layout_constraintHorizontal_bias="1.0" />
+                    <Button
+                        android:id="@+id/reloadBtn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="ReLoad"
+                        android:onClick="@{() -> vm.loadNews(true)}"
+                        android:layout_gravity="bottom"/>
+                </LinearLayout>
+            </androidx.appcompat.widget.Toolbar>
+        </com.google.android.material.appbar.AppBarLayout>
 
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/pullToRefresh"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
-    <ProgressBar
-        android:id="@+id/loadingProgressBar"
-        style="?android:attr/progressBarStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"/>
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/newsRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintHorizontal_bias="0.0"
+                tools:listitem="@layout/item_news"
+                android:orientation="vertical"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+        <ProgressBar
+            android:id="@+id/loadingProgressBar"
+            android:visibility="@{BindingConverters.isLoading(vm.loadingStatus.booleanValue())}"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"/>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>
+

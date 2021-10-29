@@ -29,7 +29,7 @@ class NewsAdapter(private val context: Context, private val startWebViewActivity
         notifyDataSetChanged()
     }
 
-    fun clearData() {
+    override fun clearData() {
         newsList.clear()
     }
 

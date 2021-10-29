@@ -6,4 +6,6 @@ interface BaseRecyclerModel {
     fun getItemCount(): Int
 
     fun notifyData()
+
+    fun clearData()
 }

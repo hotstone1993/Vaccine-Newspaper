@@ -8,8 +8,10 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.databinding.DataBindingUtil
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.newstone.vaccine_newspaper.R
+import com.newstone.vaccine_newspaper.databinding.ActivityMainBinding
 import com.newstone.vaccine_newspaper.view.main.di.VNApplication
 import com.newstone.vaccine_newspaper.view.main.di.component.DaggerActivityComponent
 import com.newstone.vaccine_newspaper.view.main.di.module.ActivityModule
@@ -53,7 +55,7 @@ class MainActivity : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        val binding = DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
 
         val activityComponent = DaggerActivityComponent.builder().appComponent((application as VNApplication).appComponent).activityModule(
             ActivityModule(this)
@@ -64,8 +66,7 @@ class MainActivity : AppCompatActivity() {
 
         replace(R.id.container, newsFragment)
 
-        val navigation: BottomNavigationView = findViewById(R.id.navigation)
-        navigation.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
+        binding.navigation.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
     }
 
     fun checkPermission(): Boolean {

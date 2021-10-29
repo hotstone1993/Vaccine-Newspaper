@@ -26,6 +26,10 @@ class VideoAdapter(val context: Context, val startPlaybackActivityFunction: (Str
         notifyDataSetChanged()
     }
 
+    override fun clearData() {
+        videoList.clear()
+    }
+
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         (holder as VideoHolder).onBind(videoList[position])
