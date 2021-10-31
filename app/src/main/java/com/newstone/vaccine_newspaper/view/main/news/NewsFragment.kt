@@ -53,7 +53,7 @@ class NewsFragment: Fragment(), SwipeRefreshLayout.OnRefreshListener {
 
             biding.dateTextView.setText(SimpleDateFormat("yyyy-MM-dd", Locale.KOREA).format(calendar.getTime()))
             NewsRepository.setDate(SimpleDateFormat("yyyyMMdd", Locale.KOREA).format(calendar.getTime()))
-            viewModel.loadNews(true)
+            viewModel.excuteEvent(NewsViewModel.RELOAD_EVENT, true)
         }
 
     override fun onCreateView(
@@ -90,10 +90,11 @@ class NewsFragment: Fragment(), SwipeRefreshLayout.OnRefreshListener {
         }
         (requireActivity() as AppCompatActivity).setSupportActionBar(biding.appToolbar)
         // Crawling
-        viewModel.loadNews(true)
+        viewModel.excuteEvent(NewsViewModel.RELOAD_EVENT, true)
 
         return biding.root
     }
+
     class NewsViewModelFactory(private val application: Application, private val recyclerModel: BaseRecyclerModel) :
         ViewModelProvider.NewInstanceFactory() {
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
@@ -102,9 +103,7 @@ class NewsFragment: Fragment(), SwipeRefreshLayout.OnRefreshListener {
     }
 
     override fun onRefresh() {
-        viewModel.showProgressBar()
-        viewModel.loadNews(true)
+        viewModel.excuteEvent(NewsViewModel.ON_REFRESH_EVENT, true)
         biding.pullToRefresh.setRefreshing(false)
-        viewModel.hideProgressBar()
     }
 }

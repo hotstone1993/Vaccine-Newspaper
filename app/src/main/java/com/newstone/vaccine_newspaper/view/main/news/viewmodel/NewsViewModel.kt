@@ -9,12 +9,19 @@ import com.newstone.vaccine_newspaper.view.main.news.adapter.NewsItem
 import com.newstone.vaccine_newspaper.view.main.news.data.NewsRepository
 import com.newstone.vaccine_newspaper.view.main.news.database.NewsDatabase
 import com.newstone.vaccine_newspaper.view.main.news.database.NewsEntity
+import com.newstone.vaccine_newspaper.view.main.util.ViewEvent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class NewsViewModel(application: Application, private val recyclerModel: BaseRecyclerModel) : AndroidViewModel(application), NewsContract.ViewModel{
+class NewsViewModel(application: Application, private val recyclerModel: BaseRecyclerModel) : AndroidViewModel(application),
+    ViewEvent {
+    companion object {
+        val RELOAD_EVENT = "click_event"
+        val ON_REFRESH_EVENT = "refresh_event"
+    }
+
     private var _loadingStatus = MutableLiveData<Boolean>()
 
     val loadingStatus:LiveData<Boolean>
@@ -30,7 +37,7 @@ class NewsViewModel(application: Application, private val recyclerModel: BaseRec
         return false
     }
 
-    override fun loadNews(force: Boolean) {
+    fun loadNews(force: Boolean) {
         if(NewsRepository.isLoaded && !force)
             return
 
@@ -59,11 +66,26 @@ class NewsViewModel(application: Application, private val recyclerModel: BaseRec
         }
     }
 
-    override fun showProgressBar() {
+    override fun excuteEvent(event: String, vararg args: Any) {
+        when(event) {
+            RELOAD_EVENT -> {
+                loadNews(args[0] as Boolean)
+            }
+            ON_REFRESH_EVENT -> {
+                showProgressBar()
+                loadNews(args[0] as Boolean)
+                hideProgressBar()
+            }
+            else -> {
+            }
+        }
+    }
+
+    fun showProgressBar() {
         _loadingStatus.value = true
     }
 
-    override fun hideProgressBar() {
+    fun hideProgressBar() {
         _loadingStatus.value = false
     }
 }
